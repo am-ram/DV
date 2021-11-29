@@ -8,6 +8,8 @@ from wordcloud import WordCloud
 import plotly.express as px
 from streamlit_pandas_profiling import st_profile_report
 import streamlit.components.v1 as components
+
+
 plt.style.use('dark_background') ; 
 st.set_option('deprecation.showPyplotGlobalUse', False)
 components.html(
@@ -30,17 +32,17 @@ components.html(
 
 
 def main():
-    #st.title("Semi Automated EDA WebApp")
+    
     st.write(" Choose your activity from the sidebar.  ")
     st.sidebar.write("""<strong style="font-size:22px">About :</strong><br>This is a WebApp built using streamlit that can be used to simplify basic EDA and visualizations.<br> Made by Sai Ram.K """,unsafe_allow_html=True)
-    activities = ["EDA" , "PLOT","In-Depth Report"]
+    activities = ["EDA" , "PLOT","In-Depth Report","Interactive-Mode"]
     st.sidebar.write("""<strong style="font-size:18px">Select Activity To Perform : </strong>""",unsafe_allow_html=True)
     choice = st.sidebar.radio(" " ,activities)
     st.sidebar.write('**<strong style="font-size:22px"><br><br><br>FAQs**</strong>',unsafe_allow_html=True)
     st.sidebar.markdown('**What happens to my data?**')
     st.sidebar.markdown('The data you upload is not saved anywhere on this site or any 3rd party site i.e, not in any storage like DB/FileSystem/Logs.')   
     #st.sidebar.markdown('https://shields-io-visitor-counter.herokuapp.com/badge?page=octocat.Spoon-Knife&label=VisitorCount&labelColor=000000&logo=GitHub&logoColor=FFFFFF&color=1D70B8&style=for-the-badge',unsafe_allow_html=True)
-    st.sidebar.markdown('![Visitor count](https://shields-io-visitor-counter.herokuapp.com/badge?page=octocat.Spoon-Knife&label=VisitorsCount&labelColor=000000&logo=GitHub&logoColor=FFFFFF&color=1D70B8&style=for-the-badge)')
+    st.sidebar.markdown('![Visitor count](https://shields-io-visitor-counter.herokuapp.com/badge?page=https://share.streamlit.io/am-ram/dv/main/AutoPlot.py&label=VisitorsCount&labelColor=000000&logo=GitHub&logoColor=FFFFFF&color=1D70B8&style=for-the-badge)')
     
 
 
@@ -71,7 +73,7 @@ def main():
             if st.checkbox("SHOW SUMMARY"):
                 st.write(df.describe())
             if st.checkbox("SHOW COLUMN TYPES"):
-                column = st.selectbox("Select Columns" , df.columns)
+                column = st.selectbox("Select Columns" , df.columns,key="1")
                 st.write(df[column].dtype)    
                
 
@@ -137,7 +139,7 @@ def main():
             
             if st.checkbox("Violin Plot"):
                 try:
-                    col = st.selectbox("Select 1 column" , df.columns)
+                    col = st.selectbox("Select 1 column" , df.columns,key="3")
                     vio=sb.violinplot( y = df[col] )
                     st.write(vio)
                     st.pyplot() 
@@ -146,7 +148,7 @@ def main():
                     
             if st.checkbox("Word Cloud"):
                 try:
-                    col = st.selectbox("Select 1 column" , df.columns)
+                    col = st.selectbox("Select 1 column" , df.columns,key="4")
                     wordcloud = WordCloud().generate(str(df[col].values))
                     plt.imshow(wordcloud, interpolation='bilinear')
                     plt.axis("off")
@@ -167,7 +169,7 @@ def main():
                     st.error("The selected column is not in a time series format. Please Select a valid Column.")   
 
     if choice =="In-Depth Report":
-            st.subheader("|  Deep report  |")
+            st.subheader("|  In - Depth Report  |")
             st.write(""" <strong><p style="font-size: 42px">Upload Your Dataset Here</p></strong> """,unsafe_allow_html=True)
             dataset = st.file_uploader("" ,type = ["csv","txt","xls"])
             
@@ -178,6 +180,43 @@ def main():
                 st_profile_report(pr)       
                 export=pr.to_html()
                 st.download_button(label="Download Full Report", data=export, file_name='Report.html')
+    
+    if choice =="Interactive-Mode":
+            st.subheader("|  Interactive Visualization  |")
+            st.write(""" <strong><p style="font-size: 42px">Upload Your Dataset Here</p></strong> """,unsafe_allow_html=True)
+            dataset = st.file_uploader("" ,type = ["csv","txt","xls"])
+            
+            if dataset is not None:
+                df = pd.read_csv(dataset , delimiter = ",")
+                st.dataframe(df)
+                if st.checkbox("Time Series"):
+                    try:
+                        col1 = st.selectbox("Select 1 column" , df.columns, key="2")
+                        fig1 = px.line(df, x=df.index, y = df[col1])
+                        fig1.update_layout(template="plotly_dark")
+                        st.plotly_chart(fig1)
+                    except (ValueError,TypeError):
+                        st.error("The selected column is not in a time series format. Please Select a valid Column.")
+                
+                if st.checkbox("Histogram"):
+                    try:
+                        column= st.selectbox("Select 1 column " , df.columns, key="6")
+                        his=px.histogram(df, x=column,title=column, height=400,color_discrete_sequence=['#03DAC5'])
+                        his.update_layout(margin=dict(t=100, b=0, l=70, r=40),hovermode="x unified",xaxis_tickangle=360,xaxis_title=' ', yaxis_title=" ",plot_bgcolor='#2d3035', paper_bgcolor='#2d3035',\
+                        title_font=dict(size=40, color='#a5a7ab', family="Muli, sans-serif"),font=dict(color='#FFFFFF',size=25),legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1))
+                        st.write(his)
+                    except (ValueError,TypeError):
+                        st.error("The selected column is not in a valid format. Please Select a valid Column.")
+                
+                if st.checkbox("Map Co-Ordinates"):
+                    try:
+                        lat= st.selectbox("Select Co-Ordinates column " , df.columns, key="8")
+                        long=st.selectbox("Select Co-Ordinates column " , df.columns, key="9")
+                        d={"latitude":lat,"longitude":long}
+                        temp=pd.DataFrame(d,columns=[['lat', 'lon']])
+                        st.map(temp)
+                    except (ValueError,TypeError):
+                        st.error("The selected column is not in a Co-Ordinates format. Please Select a valid Column.")
                
                 
     else:
