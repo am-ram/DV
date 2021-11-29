@@ -13,3 +13,4 @@ seaborn==0.10.1
 streamlit
 plotly==5.4.0
 wordcloud==1.8.1
+streamlit-pandas-profiling==0.1.2
