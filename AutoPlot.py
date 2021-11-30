@@ -210,10 +210,10 @@ def main():
                 
                 if st.checkbox("Map Co-Ordinates"):
                     try:
-                        lat= st.selectbox("Select Co-Ordinates column " , df.columns, key="8")
-                        long=st.selectbox("Select Co-Ordinates column " , df.columns, key="9")
+                        lat= st.selectbox("Select Latitudes column " , df.columns, key="8")
+                        long=st.selectbox("Select Longitudes column " , df.columns, key="9")
                         d={"latitude":lat,"longitude":long}
-                        temp=pd.DataFrame(d,columns=[['lat', 'lon']])
+                        temp=pd.DataFrame(d,columns=['lat', 'lon'])
                         st.map(temp)
                     except (ValueError,TypeError):
                         st.error("The selected column is not in a Co-Ordinates format. Please Select a valid Column.")
