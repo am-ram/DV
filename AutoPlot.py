@@ -14,15 +14,15 @@ plt.style.use('dark_background') ;
 st.set_option('deprecation.showPyplotGlobalUse', False)
 components.html(
     """
-    <div class="college" style="border: 2px solid black; background-color: rgb(5, 5, 5);color: aliceblue;text-align: center;border-radius: 10px;font-family:Trebuchet MS,Garamond;font-size: 14px"> 
+    <div class="intro" style="border: 2px solid black; border-radius: 25px; background-color: cornflowerblue;font-family:Trebuchet MS,Garamond ;font-size: 18px;text-align: center; ">
+        <h1 style="margin: 0.25;"><strong>AutoPlot</strong></h1>
+        <h2 style="margin: 0.25;">A Web-App that automates plots.</h2>
+    </div>
+    <br>
+   <div class="college" style="border: 2px solid black; background-color: rgb(5, 5, 5);color: aliceblue;text-align: center;border-radius: 10px;font-family:Trebuchet MS,Garamond;font-size: 14px"> 
         <h1><span>Presidency University, Bangalore</span></h1>
         <h3>Department of Computer Science & Engineering</h3>
         <h2>Data Visualization Project | 7 - CSE - 10 | CSE 367 </h2>
-    </div>
-    <br>
-    <div class="intro" style="border: 2px solid black; border-radius: 25px; background-color: cornflowerblue;font-family:Trebuchet MS,Garamond ;font-size: 18px;text-align: center; ">
-        <h1 style="margin: 0.25;"><strong>AutoPlot</strong></h1>
-        <h2 style="margin: 0.25;">A Web-App that aims to automate plotting...</h2>
     </div>
     
 
@@ -33,16 +33,25 @@ components.html(
 
 def main():
     
+    hide_menu_style = """
+        <style>
+        #MainMenu {visibility: hidden; }
+        footer {visibility: hidden;}
+        </style>
+        """
+    st.markdown(hide_menu_style, unsafe_allow_html=True)
     st.write(" Choose your activity from the sidebar.  ")
     st.sidebar.write("""<strong style="font-size:22px">About :</strong><br>This is a WebApp built using streamlit that can be used to simplify basic EDA and visualizations.<br> Made by Sai Ram.K """,unsafe_allow_html=True)
+    st.sidebar.markdown('![Visitor count](https://shields-io-visitor-counter.herokuapp.com/badge?page=https://share.streamlit.io/am-ram/dv/main/AutoPlot.py&label=VisitorsCount&labelColor=000000&logo=GitHub&logoColor=FFFFFF&color=1D70B8&style=for-the-badge)')
+
     activities = ["EDA" , "PLOT","In-Depth Report","Interactive-Mode"]
     st.sidebar.write("""<strong style="font-size:18px">Select Activity To Perform : </strong>""",unsafe_allow_html=True)
     choice = st.sidebar.radio(" " ,activities)
-    st.sidebar.write('**<strong style="font-size:22px"><br><br><br>FAQs**</strong>',unsafe_allow_html=True)
+    st.sidebar.write('**<strong style="font-size:22px">FAQs**</strong>',unsafe_allow_html=True)
     st.sidebar.markdown('**What happens to my data?**')
     st.sidebar.markdown('The data you upload is not saved anywhere on this site or any 3rd party site i.e, not in any storage like DB/FileSystem/Logs.')   
-    #st.sidebar.markdown('https://shields-io-visitor-counter.herokuapp.com/badge?page=octocat.Spoon-Knife&label=VisitorCount&labelColor=000000&logo=GitHub&logoColor=FFFFFF&color=1D70B8&style=for-the-badge',unsafe_allow_html=True)
-    st.sidebar.markdown('![Visitor count](https://shields-io-visitor-counter.herokuapp.com/badge?page=https://share.streamlit.io/am-ram/dv/main/AutoPlot.py&label=VisitorsCount&labelColor=000000&logo=GitHub&logoColor=FFFFFF&color=1D70B8&style=for-the-badge)')
+    st.sidebar.markdown('**To Suggest changes & improvements do reach on LinkedIn. **')
+    st.sidebar.markdown('[![Sairam](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=whit)](https://www.linkedin.com/in/am-ram/ )')
     
 
 
