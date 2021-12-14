@@ -221,7 +221,9 @@ def main():
                     try:
                         lat= st.selectbox("Select Latitudes column " , df.columns, key="8")
                         long=st.selectbox("Select Longitudes column " , df.columns, key="9")
-                        d={"latitude":lat,"longitude":long}
+                        lat=df[lat]
+                        long=df[long]
+                        d={"lat":lat,"lon":long}
                         temp=pd.DataFrame(d,columns=['lat', 'lon'])
                         st.map(temp)
                     except (ValueError,TypeError):
