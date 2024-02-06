@@ -4,7 +4,7 @@ import numpy as np
 import seaborn as sb 
 import matplotlib.pyplot as plt 
 #import pandas_profiling
-import ydata-profiling
+from ydata_profiling import ProfileReport
 from wordcloud import WordCloud
 import plotly.express as px
 from streamlit_pandas_profiling import st_profile_report
