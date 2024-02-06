@@ -19,6 +19,7 @@ matplotlib
 numpy
 pandas
 pandas-profiling
+ydata-profiling
 plotly
 seaborn
 streamlit
