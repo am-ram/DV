@@ -12,7 +12,7 @@ import streamlit.components.v1 as components
 
 
 plt.style.use('dark_background') ; 
-st.set_option('deprecation.showPyplotGlobalUse', False)
+# st.set_option('deprecation.showPyplotGlobalUse', False)
 components.html(
     """
     <div class="intro" style="border: 2px solid black; border-radius: 25px; background-color: cornflowerblue;font-family:Trebuchet MS,Garamond ;font-size: 18px;text-align: center; ">
